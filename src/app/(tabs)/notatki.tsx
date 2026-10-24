@@ -14,13 +14,14 @@ export default function AllNotes() {
         renderItem={({ item, index }) => (
           <Pressable onPress={() => router.push(`/notatka/${index}`)}>
             <Text>
-              Note {index + 1} : {item}
+              Note {index + 1} : {item.tytuł}
             </Text>
           </Pressable>
         )}
         ListEmptyComponent={<Text>No Notes Added</Text>}
       />
       <Button title="Clear Notes" onPress={clearNotes} />
+      <Text>Number of Notes : {Number(wszystkie.length)}</Text>
     </View>
   );
 }

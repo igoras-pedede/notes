@@ -24,7 +24,15 @@ export default function NowaNotatka() {
         onChangeText={setNotatka}
         placeholder="Wpisz Swoją Notatekę"
       />
-      <Button title="Zapisz" onPress={() => addNotes(tytuł)} />
+      <Button
+        title="Zapisz"
+        onPress={() =>
+          addNotes({
+            tytuł: tytuł,
+            notatka: notatka,
+          })
+        }
+      />
       <Button title="Clear" onPress={clearNotes} />
     </View>
   );
