@@ -1,13 +1,8 @@
+import { colors, spacing } from "@/constants/theme";
 import { useNotatkaStore } from "@/store/useNotatkaStore";
 import { router } from "expo-router";
-import {
-  Button,
-  FlatList,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import AppButton from "../components/AppButton";
 
 export default function AllNotes() {
   const wszystkie = useNotatkaStore((state) => state.notes);
@@ -16,6 +11,7 @@ export default function AllNotes() {
   return (
     <View style={styles.contaner}>
       <FlatList
+        style={styles.textInput}
         data={wszystkie}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
@@ -24,7 +20,7 @@ export default function AllNotes() {
             onPress={() => router.push(`/notatka/${index}`)}
           >
             <Text style={styles.text}>
-              Note {index + 1} : {item.tytuł}
+              Note {index + 1} : {item.tytul}
             </Text>
           </Pressable>
         )}
@@ -32,7 +28,7 @@ export default function AllNotes() {
       />
       <View style={styles.buttonPlacement}>
         <Text>Number of Notes : {Number(wszystkie.length)}</Text>
-        <Button title="Clear Notes" onPress={clearNotes} />
+        <AppButton title="Clear Notes" onPress={clearNotes} />
       </View>
     </View>
   );
@@ -41,23 +37,30 @@ export default function AllNotes() {
 const styles = StyleSheet.create({
   contaner: {
     flex: 1,
-    padding: 10,
+    padding: spacing.md,
   },
   buttonPlacement: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    gap: 10,
+    gap: spacing.md,
   },
   note: {
-    backgroundColor: "#011b59",
-    padding: 8,
+    backgroundColor: colors.card,
+    padding: spacing.sm,
     borderRadius: 2,
-    marginBottom: 10,
+    marginBottom: spacing.md,
   },
   text: {
-    color: "#ffffff",
-    fontSize: 14,
+    color: colors.background,
+    fontSize: spacing.lg,
     fontWeight: "bold",
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: spacing.sm,
+    padding: spacing.md,
+    backgroundColor: colors.background,
   },
 });

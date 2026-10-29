@@ -1,7 +1,9 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 type NotatkaStructure = {
-  tytuł: string;
+  tytul: string;
   notatka: string;
 };
 
@@ -12,12 +14,20 @@ type Notatka = {
   removeNote: (index: number) => void;
 };
 
-export const useNotatkaStore = create<Notatka>((set) => ({
-  notes: [],
-  addNotes: (note) => set((state) => ({ notes: [...state.notes, note] })),
-  clearNotes: () => set({ notes: [] }),
-  removeNote: (index) =>
-    set((state) => ({
-      notes: state.notes.filter((note, indx) => indx !== index),
-    })),
-}));
+export const useNotatkaStore = create<Notatka>()(
+  persist(
+    (set) => ({
+      notes: [],
+      addNotes: (note) => set((state) => ({ notes: [...state.notes, note] })),
+      clearNotes: () => set({ notes: [] }),
+      removeNote: (index) =>
+        set((state) => ({
+          notes: state.notes.filter((note, indx) => indx !== index),
+        })),
+    }),
+    {
+      name: "notes-storage",
+      storage: createJSONStorage(() => AsyncStorage),
+    },
+  ),
+);
